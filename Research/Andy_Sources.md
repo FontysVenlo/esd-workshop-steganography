@@ -1,11 +1,24 @@
 ## Information:
 
-https://www.kaspersky.com/resource-center/definitions/what-is-steganography
-https://www1.udel.edu/PR/UDaily/2005/dec/boncelet012805.html
+[https://www.kaspersky.com/resource-center/definitions/what-is-steganography]
+[https://www1.udel.edu/PR/UDaily/2005/dec/boncelet012805.html]
 
 ## Exercises:
-https://www.geeksforgeeks.org/computer-graphics/lsb-based-image-steganography-using-matlab/
-https://www.geeksforgeeks.org/python/image-based-steganography-using-python/
+[https://www.geeksforgeeks.org/computer-graphics/lsb-based-image-steganography-using-matlab/]
+[https://www.geeksforgeeks.org/python/image-based-steganography-using-python/]
+
+## Misc Links
+[https://www.secalliance.com/blog/word-day-steganography]
+[https://static.crysys.hu/publications/files/bencsathPBF11duqu.pdf]
+[https://www.secureworks.com/research/malware-analysis-of-the-lurk-downloader]
+[https://en.wikipedia.org/wiki/Steganography]
+[https://www.atlasobscura.com/articles/knitting-spies-wwi-wwii]
+[https://www.reddit.com/r/todayilearned/comments/11d1afo/til_the_concept_of_steganography_which_is_the/]
+[https://eforensicsmag.com/steganography-a-hidden-reality-far-beyond-what-the-eyes-can-see/]
+[https://www.firstlegal.com/ww2-stenographers/]
+[https://www.srlf.ucla.edu/exhibit/text/hist_page4.htm]
+[https://www.historyofinformation.com/detail.php?id=2072]
+[https://www.perseus.tufts.edu/hopper/text?doc=Hdt.+5.35]
 
 ## History
 
