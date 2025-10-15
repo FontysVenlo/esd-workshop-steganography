@@ -9,18 +9,24 @@ During safe hacking, it is used in penetration testing to simulate how attackers
 - steghide does not use LSB - LSB is easily detectable
 
 Test image
-![[original.jpeg]]
+
+![](original.jpeg)
 
 steghide embed -cf original.jpeg  -ef nnadmin.txt
-![[stego.jpeg]]
+
+![](stego.jpeg)
 
 compare original.jpeg stego.jpeg diff.png
-![[diff.jpeg]]
+
+![](diff.jpeg)
+
+
 shows exact pixel differences between the two images (dark = identical, bright = changed)
 
 convert original.jpeg stego.jpeg -compose difference -composite -evaluate multiply 10 diff2.png
 
-![[diff2.jpeg]]
+![](diff2.jpeg)
+
 exaggerates those tiny hidden changes ×10 so they become visible (bright noise = where data was embedded)
 
 --- 
