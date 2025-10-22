@@ -44,7 +44,9 @@
     - 2014 malware LURK [https://www.secureworks.com/research/malware-analysis-of-the-lurk-downloader]
     - 2011 StuxNet dupe [https://static.crysys.hu/publications/files/bencsathPBF11duqu.pdf]
     - 2020 multiple attacks [https://www.kaspersky.com/resource-center/definitions/what-is-steganography]
-
+- Cameras [e.g. canon, nikon, kodak] use steganography like printers [data to track img-device]
+- tickets
+- animals [camouflage]
 
 ## Misc ideas exercises/demo
 - Exercise 6: Detect a Hidden Message (Steganalysis basics)
@@ -100,3 +102,24 @@ Metadata?
 Ask students: Is this steganography, cryptography, or neither? Why?
 
 ✅ Sharpens conceptual understanding.
+
+## Talk points
+
+### 1. Intro
+
+- Steganography definition
+- Steganography origins (greek slave story)
+- Steganography vs other things (brief explanation)
+- Nature
+
+### 2. Evolution
+
+- Why it kept being used
+- What methods evolved (null cypher, invisible inks, etc)
+
+### 3. Digital era & Modern uses
+
+- 80's-90's : Development of LSB, cover the first tools used (S-Tools, Hide&Seek) [need to check sources]
+- Types of media it's used in (image, audio, video, text)
+- Uses in industries : bar codes, printers, metadata from cameras, 
+- Attacks it's been used in
