@@ -1,6 +1,7 @@
 ## Workshop structure
 
 **0–15 min: Icebreaker**
+
 Start with a hidden message challenge:
 - Show them two identical-looking images
 “One of these contains a secret. Can you tell which?”
@@ -31,6 +32,7 @@ Start with a hidden message challenge:
 - Try image in image as well and make the other person find the images
 
 **80–90 min: Wrap-Up**
+
 Ask:
 - Where could this be useful or dangerous?
 - When is hiding something _smarter_ than encrypting it? 
