@@ -147,8 +147,9 @@ def main():
 
     print("\n=== Steganography Tool (RGB & HSV) ===\n")
     while True:
-	print("Write 'exit' to terminate. All progress will be lost.")
-        mode = input_strict("\nSelect mode (embed/extract): ", ['embed', 'extract', 'exit'])
+        print("\nWrite 'exit' to terminate. All progress will be lost.")
+
+        mode = input_strict("Select mode (embed/extract/exit): ", ['embed', 'extract', 'exit'])
         if mode == 'exit':
             print("Exiting.")
             break
