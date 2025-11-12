@@ -45,32 +45,40 @@ def embed_rgb(img_path, message, channel, bit, output_img, output_mask):
     arr = np.array(img)
     ch_idx = 'RGB'.index(channel.upper())
     flat = arr[:, :, ch_idx].flatten()
+
+    max_chars = len(flat) // 8
+    if len(message) > max_chars:
+        raise ValueError(f"Message too long! Max characters for this image: {max_chars}")
+
     bits = text_to_bits(message) + '00000000'
-    if len(bits) > flat.size:
-        raise ValueError("Message too long for image.")
+
     mask_arr = np.zeros_like(flat, dtype=np.uint8)
     bit_mask = 1 << bit
     inv_mask = (~bit_mask) & 0xFF
+
     for i, b in enumerate(bits):
         new = (flat[i] & inv_mask) | ((int(b) << bit) & 0xFF)
         if new != flat[i]:
             mask_arr[i] = 255
         flat[i] = new
+
     h, w, _ = arr.shape
     arr[:, :, ch_idx] = flat.reshape(h, w)
     Image.fromarray(arr).save(output_img)
+
     mask_img = np.zeros_like(arr)
     mask_img[:, :, ch_idx] = mask_arr.reshape(h, w)
     Image.fromarray(mask_img).save(output_mask)
-    print(f"RGB embedding done. Saved {output_img} and {output_mask}")
+    print(f"RGB embedding done. Max chars: {max_chars}. Saved {output_img} and {output_mask}")
 
 
-def extract_rgb(img_path, channel, bit, max_chars=200):
+def extract_rgb(img_path, channel, bit):
     img = Image.open(img_path).convert('RGB')
     arr = np.array(img)
     ch_idx = 'RGB'.index(channel.upper())
     flat = arr[:, :, ch_idx].flatten()
-    bits = ''.join(str((flat[i] >> bit) & 1) for i in range(min(len(flat), max_chars * 8)))
+
+    bits = ''.join(str((flat[i] >> bit) & 1) for i in range(len(flat)))
     return bits_to_text(bits)
 
 
@@ -80,11 +88,13 @@ def embed_hsv(img_path, message, channel, bit, output_img, output_mask):
     channel_idx = {'H': 0, 'S': 1, 'V': 2}[channel.upper()]
     data = (hsv[:, :, channel_idx] * 255).astype(np.uint8)
     h, w = data.shape
-    total = h * w
-    bits = text_to_bits(message) + '00000000'
-    if len(bits) > total:
-        raise ValueError("Message too long for image.")
     flat = data.flatten()
+
+    max_chars = len(flat) // 8
+    if len(message) > max_chars:
+        raise ValueError(f"Message too long! Max characters for this image: {max_chars}")
+
+    bits = text_to_bits(message) + '00000000'
     bit_mask = 1 << bit
     inv_mask = (~bit_mask) & 0xFF
     for i, b in enumerate(bits):
@@ -135,16 +145,15 @@ def main():
     os.makedirs("images", exist_ok=True)
     os.makedirs("output", exist_ok=True)
 
-    print("=== Steganography Tool (RGB & HSV) ===")
+    print("\n=== Steganography Tool (RGB & HSV) ===\nWrite 'exit' to terminate. All progress will be lost.")
     while True:
-        mode = input_strict("Select mode (embed/extract/exit): ", ['embed', 'extract', 'exit'])
+        mode = input_strict("\nSelect mode (embed/extract): ", ['embed', 'extract', 'exit'])
         if mode == 'exit':
             print("Exiting.")
             break
 
         domain = input_strict("Select domain (RGB/HSV): ", ['RGB', 'HSV'])
 
-        # Folder depends on mode
         folder = "images" if mode == "embed" else "output"
         images = [f for f in os.listdir(folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
         if not images:
@@ -176,7 +185,7 @@ def main():
             else:
                 embed_hsv(img_path, message, channel, bit, out_img, out_mask)
         else:
-            print("\nExtracting (max 200 chars)...")
+            print("\nExtracting...")
             if domain.lower() == 'rgb':
                 msg = extract_rgb(img_path, channel, bit)
             else:
