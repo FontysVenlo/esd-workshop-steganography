@@ -145,8 +145,9 @@ def main():
     os.makedirs("images", exist_ok=True)
     os.makedirs("output", exist_ok=True)
 
-    print("\n=== Steganography Tool (RGB & HSV) ===\nWrite 'exit' to terminate. All progress will be lost.")
+    print("\n=== Steganography Tool (RGB & HSV) ===\n")
     while True:
+	print("Write 'exit' to terminate. All progress will be lost.")
         mode = input_strict("\nSelect mode (embed/extract): ", ['embed', 'extract', 'exit'])
         if mode == 'exit':
             print("Exiting.")
