@@ -113,9 +113,6 @@ def extract_hsv(img_path, channel, bit, max_chars=200):
 
 def input_strict(prompt, valid_options):
     val = input(prompt).strip().lower()
-    if val == "exit":
-        print("Exiting.")
-        sys.exit()
     if val not in [v.lower() for v in valid_options]:
         print("Invalid input. Exiting.")
         sys.exit()
@@ -123,12 +120,8 @@ def input_strict(prompt, valid_options):
 
 
 def input_int_strict(prompt, min_val, max_val):
-    val = input(prompt).strip()
-    if val.lower() == "exit":
-        print("Exiting.")
-        sys.exit()
     try:
-        val = int(val)
+        val = int(input(prompt).strip())
     except:
         print("Invalid input. Exiting.")
         sys.exit()
@@ -139,22 +132,32 @@ def input_int_strict(prompt, min_val, max_val):
 
 
 def main():
-    while True:
-        print("\n=== Steganography Tool (RGB & HSV) ===")
-        print("Type 'exit' at any time to quit.\n")
+    os.makedirs("images", exist_ok=True)
+    os.makedirs("output", exist_ok=True)
 
-        mode = input_strict("Select mode (embed/extract): ", ['embed', 'extract'])
+    print("=== Steganography Tool (RGB & HSV) ===")
+    while True:
+        mode = input_strict("Select mode (embed/extract/exit): ", ['embed', 'extract', 'exit'])
+        if mode == 'exit':
+            print("Exiting.")
+            break
+
         domain = input_strict("Select domain (RGB/HSV): ", ['RGB', 'HSV'])
 
-        images = [f for f in os.listdir('.') if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+        # Folder depends on mode
+        folder = "images" if mode == "embed" else "output"
+        images = [f for f in os.listdir(folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
         if not images:
-            print("No images found.")
-            sys.exit()
-        print("\nImages in folder:")
+            print(f"No images found in ./{folder}/")
+            continue
+
+        print(f"\nImages available in {folder}/:")
         for i, f in enumerate(images, 1):
             print(f"{i}. {f}")
+
         idx = input_int_strict("Select image number: ", 1, len(images)) - 1
         img_name = images[idx]
+        img_path = os.path.join(folder, img_name)
 
         if domain.lower() == 'rgb':
             channel = input_strict("Select channel (R/G/B): ", ['R', 'G', 'B'])
@@ -162,27 +165,25 @@ def main():
             channel = input_strict("Select channel (H/S/V): ", ['H', 'S', 'V'])
         bit = input_int_strict("Select bit (0-7): ", 0, 7)
 
+        base, ext = os.path.splitext(img_name)
+        out_img = os.path.join("output", f"{base}_HIDDEN{ext}")
+        out_mask = os.path.join("output", f"{base}_MASK{ext}")
+
         if mode == 'embed':
-            message = input("Enter secret message (or 'exit' to quit): ").strip()
-            if message.lower() == "exit":
-                print("Exiting.")
-                sys.exit()
-            base, ext = os.path.splitext(img_name)
-            out_img = f"{base}_HIDDEN{ext}"
-            out_mask = f"{base}_MASK{ext}"
+            message = input("Enter secret message: ").strip()
             if domain.lower() == 'rgb':
-                embed_rgb(img_name, message, channel, bit, out_img, out_mask)
+                embed_rgb(img_path, message, channel, bit, out_img, out_mask)
             else:
-                embed_hsv(img_name, message, channel, bit, out_img, out_mask)
+                embed_hsv(img_path, message, channel, bit, out_img, out_mask)
         else:
             print("\nExtracting (max 200 chars)...")
             if domain.lower() == 'rgb':
-                msg = extract_rgb(img_name, channel, bit)
+                msg = extract_rgb(img_path, channel, bit)
             else:
-                msg = extract_hsv(img_name, channel, bit)
+                msg = extract_hsv(img_path, channel, bit)
             print("\n=== Extracted Message ===")
             print(msg if msg else "[No message found]")
-            print("=========================")
+            print("=========================\n")
 
 
 if __name__ == "__main__":
