@@ -1,5 +1,4 @@
 import os
-import sys
 from PIL import Image
 import numpy as np
 import colorsys
@@ -122,23 +121,23 @@ def extract_hsv(img_path, channel, bit, max_chars=200):
 
 
 def input_strict(prompt, valid_options):
-    val = input(prompt).strip().lower()
-    if val not in [v.lower() for v in valid_options]:
-        print("Invalid input. Exiting.")
-        sys.exit()
-    return val
+    while True:
+        val = input(prompt).strip().lower()
+        if val in [v.lower() for v in valid_options]:
+            return val
+        print(f"Invalid input. Please choose one of: {', '.join(valid_options)}.")
 
 
 def input_int_strict(prompt, min_val, max_val):
-    try:
-        val = int(input(prompt).strip())
-    except:
-        print("Invalid input. Exiting.")
-        sys.exit()
-    if val < min_val or val > max_val:
-        print("Invalid input. Exiting.")
-        sys.exit()
-    return val
+    while True:
+        try:
+            val = int(input(prompt).strip())
+            if min_val <= val <= max_val:
+                return val
+            else:
+                print(f"Number out of range. Enter a value between {min_val} and {max_val}.")
+        except ValueError:
+            print("Invalid input. Please enter an integer.")
 
 
 def main():
@@ -149,7 +148,7 @@ def main():
     while True:
         print("\nWrite 'exit' to terminate. All progress will be lost.")
 
-        mode = input_strict("Select mode (embed/extract/exit): ", ['embed', 'extract', 'exit'])
+        mode = input_strict("Select mode (embed/extract): ", ['embed', 'extract', 'exit'])
         if mode == 'exit':
             print("Exiting.")
             break
