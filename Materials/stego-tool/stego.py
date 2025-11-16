@@ -148,7 +148,7 @@ def main():
     while True:
         print("\nWrite 'exit' to terminate. All progress will be lost.")
 
-        mode = input_strict("Select mode (embed/extract): ", ['embed', 'extract'])
+        mode = input_strict("Select mode (embed/extract): ", ['embed', 'extract', 'exit'])
         if mode == 'exit':
             print("Exiting.")
             break
